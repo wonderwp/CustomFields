@@ -5,7 +5,7 @@ namespace WonderWp\Component\CustomFields\Service;
 use WonderWp\Component\CustomFields\Definition\CustomFieldsRegistryInterface;
 use WonderWp\Component\Service\AbstractService;
 
-abstract class AbstractCustomFieldsRegistryService extends AbstractService implements TaxonomyServiceInterface
+abstract class AbstractCustomFieldsRegistryService extends AbstractService implements CustomFieldsRegistryServiceInterface
 {
     /** @var CustomFieldsRegistryInterface[] */
     protected $fieldsRegistries = [];

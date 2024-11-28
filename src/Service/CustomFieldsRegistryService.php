@@ -6,7 +6,7 @@ use WonderWp\Component\PluginSkeleton\ManagerAwareInterface;
 use WonderWp\Component\PluginSkeleton\ManagerAwareTrait;
 use WonderWp\Component\PluginSkeleton\Service\RegistrableInterface;
 
-class CustomFieldsRegistryService extends AbstractTaxonomyService implements RegistrableInterface, ManagerAwareInterface
+class CustomFieldsRegistryService extends AbstractCustomFieldsRegistryService implements RegistrableInterface, ManagerAwareInterface
 {
     use ManagerAwareTrait;
 
@@ -24,7 +24,6 @@ class CustomFieldsRegistryService extends AbstractTaxonomyService implements Reg
         ];
         $discoveryPaths = array_merge($defaultPaths, $discoveryPaths);
         $autoLoaded = parent::autoload($classNameFromFiles, $discoveryPaths, $successCallback);
-        dump($autoLoaded);
 
         return $autoLoaded;
     }
