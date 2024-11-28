@@ -23,7 +23,7 @@
     "johnpbloch/wordpress": "^6.0"
   },
   "autoload": {
-    "psr-4": {"WonderWp\\Component\\CPT\\": "src"},
+    "psr-4": {"WonderWp\\Component\\CustomFields\\": "src"},
     "exclude-from-classmap": [
       "/tests/"
     ]

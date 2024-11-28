@@ -1,6 +1,6 @@
 <?php
 
-namespace WonderWp\Component\Customfields\Definition;
+namespace WonderWp\Component\CustomFields\Definition;
 
 use WonderWp\Component\PluginSkeleton\Service\RegistrableInterface;
 
