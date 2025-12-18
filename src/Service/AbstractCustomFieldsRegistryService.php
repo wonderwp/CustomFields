@@ -4,9 +4,14 @@ namespace WonderWp\Component\CustomFields\Service;
 
 use WonderWp\Component\CustomFields\Definition\CustomFieldsRegistryInterface;
 use WonderWp\Component\Service\AbstractService;
+use WonderWp\Component\Service\Traits\HasAutoloadingCapabilities;
+use WonderWp\Component\CustomFields\Traits\HasCustomFieldsAutoloader;
 
 abstract class AbstractCustomFieldsRegistryService extends AbstractService implements CustomFieldsRegistryServiceInterface
 {
+    use HasAutoloadingCapabilities, HasCustomFieldsAutoloader {
+        HasCustomFieldsAutoloader::resolveDiscoveryPaths insteadof HasAutoloadingCapabilities;
+    }
     /** @var CustomFieldsRegistryInterface[] */
     protected $fieldsRegistries = [];
 
