@@ -1,7 +1,14 @@
 # WonderWp Custom Fields Component
 
-A WonderWp package allowing you to manage Custom Fields.
+Custom fields registry services for WonderWp plugins.
 
-## Documentation
+## Testing
 
-- Documentation about the custom fields component can be found [here](http://wonderwp.net/Creating_a_plugin/Custom_Fields/index.html).
+Strategy: [wonderwp/docs/testing.md](https://github.com/wonderwp/wonderwp/blob/chore/deps-max/docs/testing.md)
+
+### Unit (CI)
+
+```bash
+composer install
+composer test
+```

@@ -3,21 +3,21 @@
 namespace WonderWp\Component\CustomFields\Service;
 
 use WonderWp\Component\CustomFields\Definition\CustomFieldsRegistryInterface;
+use WonderWp\Component\CustomFields\Exception\CustomFieldsRegistryRegistrationException;
+use WonderWp\Component\CustomFields\Response\CustomFieldsRegistryRegistrationResponse;
+use WonderWp\Component\CustomFields\Response\CustomFieldsRegistryRegistrationResponseInterface;
+use WonderWp\Component\CustomFields\Traits\HasCustomFieldsAutoloader;
 use WonderWp\Component\Service\AbstractService;
 use WonderWp\Component\Service\Traits\HasAutoloadingCapabilities;
-use WonderWp\Component\CustomFields\Traits\HasCustomFieldsAutoloader;
 
 abstract class AbstractCustomFieldsRegistryService extends AbstractService implements CustomFieldsRegistryServiceInterface
 {
     use HasAutoloadingCapabilities, HasCustomFieldsAutoloader {
         HasCustomFieldsAutoloader::resolveDiscoveryPaths insteadof HasAutoloadingCapabilities;
     }
+
     /** @var CustomFieldsRegistryInterface[] */
     protected $fieldsRegistries = [];
-
-    //========================================================================================================//
-    // Getters and Setters
-    //========================================================================================================//
 
     /** @inheritDoc */
     public function getCustomFieldsRegistries(): array
@@ -34,7 +34,8 @@ abstract class AbstractCustomFieldsRegistryService extends AbstractService imple
     /** @inheritDoc */
     public function addCustomFieldsRegistry(CustomFieldsRegistryInterface $CustomFieldsRegistry): static
     {
-        $this->fieldsRegistries[$taxonomy->getKey()] = $taxonomy;
+        $this->fieldsRegistries[$CustomFieldsRegistry->getKey()] = $CustomFieldsRegistry;
+
         return $this;
     }
 
@@ -44,19 +45,17 @@ abstract class AbstractCustomFieldsRegistryService extends AbstractService imple
         if (isset($this->fieldsRegistries[$key])) {
             unset($this->fieldsRegistries[$key]);
         }
+
         return $this;
     }
 
     /** @inheritDoc */
     public function setCustomFieldsRegitries(array $CustomFieldsRegistries): static
     {
-        $this->fieldsRegistries = $fields;
+        $this->fieldsRegistries = $CustomFieldsRegistries;
+
         return $this;
     }
-
-    //========================================================================================================//
-    // Registration methods
-    //========================================================================================================//
 
     /** @inheritDoc */
     public function registerCustomFieldsRegistries(): array
@@ -73,6 +72,16 @@ abstract class AbstractCustomFieldsRegistryService extends AbstractService imple
     /** @inheritDoc */
     public function registerCustomFieldsRegistry(CustomFieldsRegistryInterface $CustomFieldsRegistry): CustomFieldsRegistryRegistrationResponseInterface
     {
+        try {
+            $result = $CustomFieldsRegistry->register();
+            $response = new CustomFieldsRegistryRegistrationResponse(200, CustomFieldsRegistryRegistrationResponseInterface::SUCCESS);
+            $response->setRegistrationResult($result);
+        } catch (\Exception $e) {
+            $errorCode = is_int($e->getCode()) ? $e->getCode() : 500;
+            $response = new CustomFieldsRegistryRegistrationResponse($errorCode, CustomFieldsRegistryRegistrationResponseInterface::ERROR);
+            $response->setError($e);
+        }
+
         return $response;
     }
 }

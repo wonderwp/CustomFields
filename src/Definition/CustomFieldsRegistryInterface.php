@@ -6,5 +6,5 @@ use WonderWp\Component\PluginSkeleton\Service\RegistrableInterface;
 
 interface CustomFieldsRegistryInterface extends RegistrableInterface
 {
-    
+    public function getKey(): string;
 }
